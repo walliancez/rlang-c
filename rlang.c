@@ -44,19 +44,19 @@ int main(int argc, char** argv)
 {
 	FILE *inputFile;
 	int index = 0;
-	char* ch;
+	int ch;
 	char* longArray;
 	char* words = malloc(1000 * sizeof(char));
-	printf(argv[1]);
-	printf("\n");
+	printf("%s\n",argv[1]);
 	inputFile = fopen(argv[1], "r");
 	printf("File opened\n");
-	while( (ch = fgetc(inputFile)) != EOF)
+	while( (ch = getc(inputFile)) != '!')
 	{
-		words[index] = ch;
+		words[index] = (char)ch;
 		index++;
 	}
-	words[index] = '\0';
+	fclose(inputFile);
+	words[index] = -1;
 	//Length with EOF
 	longArray = malloc((index + (countConsonants(words,index) * 2)) * sizeof(char));
 	index = 0;
@@ -71,8 +71,9 @@ int main(int argc, char** argv)
 			index++;
 		}
 	}
-	printf(longArray);	
-	fclose(inputFile);
+	printf("%s\n",longArray);	
 	printf("File closed\n");
+	free(words);
+	free(longArray);
 	return 0;
 }

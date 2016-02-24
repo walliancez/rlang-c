@@ -22,7 +22,8 @@ int isConsonant(char c)
 int countConsonants(char* array, int length)
 {
 	char c;
-	int i,count;
+	int i;
+	int count = 0;
 
 	for(i = 0; i < length; i++)
 	{
@@ -44,35 +45,37 @@ int main(int argc, char** argv)
 {
 	FILE *inputFile;
 	int index = 0;
+	int longIndex = 0;
 	int ch;
 	char* longArray;
 	char* words = malloc(1000 * sizeof(char));
-	printf("%s\n",argv[1]);
+
 	inputFile = fopen(argv[1], "r");
-	printf("File opened\n");
-	while( (ch = getc(inputFile)) != '!')
+	while( (ch = getc(inputFile)) != EOF)
 	{
-		words[index] = (char)ch;
-		index++;
+		words[index++] = (char)ch;
 	}
 	fclose(inputFile);
-	words[index] = -1;
+	printf("%d\n", countConsonants(words,index));
 	//Length with EOF
 	longArray = malloc((index + (countConsonants(words,index) * 2)) * sizeof(char));
 	index = 0;
-	while(longArray[index] != EOF)
+	while(words[index] != EOF)
 	{
-		if(isConsonant(longArray[index])){
+		if(isConsonant(words[index])){
 			char temp = longArray[index];
-			longArray[index + 1] = 'o';
-			longArray[index + 2] = temp;
-			index += 3;
-		} else {
+			longArray[longIndex] = temp;
+			longArray[longIndex + 1] = 'o';
+			longArray[longIndex + 2] = temp;
+			longIndex += 3;
 			index++;
+		} else {
+			longArray[longIndex];
+			index++;
+			longIndex++;
 		}
 	}
-	printf("%s\n",longArray);	
-	printf("File closed\n");
+	printf("%s\n",longArray);
 	free(words);
 	free(longArray);
 	return 0;
